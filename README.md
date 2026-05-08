@@ -39,6 +39,9 @@ Fill in local API keys in `.env`; never commit that file.
 
 For RapidAPI JSearch, use the regenerated RapidAPI key as `JSEARCH_API_KEY` and keep `JSEARCH_RAPIDAPI_HOST=jsearch.p.rapidapi.com`, unless the RapidAPI endpoint page shows a different host.
 
+For Careerjet, set `CAREERJET_API_KEY` and `CAREERJET_USER_IP` to the public IP address declared in Careerjet's API settings. Do not use `127.0.0.1`.
+If Careerjet shows a different endpoint in your account, set `CAREERJET_API_URL` or pass `--api-url`.
+
 Run a tiny smoke test after accounts are created:
 
 ```powershell

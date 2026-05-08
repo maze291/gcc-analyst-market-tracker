@@ -202,6 +202,12 @@ Decision:
 - Do not overwrite them.
 - Summary wording was updated to distinguish raw-input risk from retained PII.
 
+Conclusion:
+JSearch has stronger technical richness and coverage.
+Careerjet has cleaner restricted-source and PII/contact profile in the sample.
+Neither should be treated as public production-cleared until provider permission is clarified.
+Recommended next step: private v1 dashboard prototype using normalized aggregate-safe data.
+
 
 ## MVP Data Fields
 

@@ -33,3 +33,5 @@ local_exports/
 scratch/
 tmp/
 *.local.csv
+site_publish/
+feasibility_tests/results/*_prefilled.csv
