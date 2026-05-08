@@ -1,0 +1,59 @@
+{
+  "_meta": {
+    "source": "jsearch",
+    "query": "Data Analyst Dubai"
+  },
+  "data": [
+    {
+      "job_id": "synthetic-001",
+      "employer_name": "Example Analytics LLC",
+      "job_publisher": "LinkedIn",
+      "job_employment_type": "FULLTIME",
+      "job_title": "Senior Data Analyst",
+      "job_apply_link": "https://www.linkedin.com/jobs/view/synthetic-001",
+      "apply_options": [
+        {
+          "publisher": "LinkedIn",
+          "apply_link": "https://www.linkedin.com/jobs/view/synthetic-001",
+          "is_direct": false
+        }
+      ],
+      "job_description": "Synthetic fixture text only. Requires SQL, Power BI, Python, dashboarding, and forecasting.",
+      "job_is_remote": false,
+      "job_posted_at_datetime_utc": "2026-05-01T08:00:00.000Z",
+      "job_city": "Dubai",
+      "job_country": "United Arab Emirates",
+      "job_min_salary": 18000,
+      "job_max_salary": 24000,
+      "job_salary_currency": "AED",
+      "job_salary_period": "MONTH",
+      "job_highlights": {
+        "Qualifications": [
+          "SQL",
+          "Power BI",
+          "Python"
+        ]
+      }
+    },
+    {
+      "job_id": "synthetic-002",
+      "employer_name": "Example Analytics LLC",
+      "job_publisher": "Company Careers",
+      "job_employment_type": "FULLTIME",
+      "job_title": "Senior Data Analyst",
+      "job_apply_link": "https://careers.example.com/jobs/synthetic-002",
+      "apply_options": [
+        {
+          "publisher": "Company Careers",
+          "apply_link": "https://careers.example.com/jobs/synthetic-002",
+          "is_direct": true
+        }
+      ],
+      "job_description": "Synthetic fixture text only. Requires SQL, Power BI, Python, dashboarding, and forecasting.",
+      "job_is_remote": false,
+      "job_posted_at_datetime_utc": "2026-05-02T08:00:00.000Z",
+      "job_city": "Dubai",
+      "job_country": "United Arab Emirates"
+    }
+  ]
+}

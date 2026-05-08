@@ -1,0 +1,35 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Notebooks
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# Local-only raw API data and derived exports
+data/raw_samples/*
+!data/raw_samples/.gitkeep
+data/normalized/*
+!data/normalized/.gitkeep
+data/derived_only/*
+!data/derived_only/.gitkeep
+
+# Accidental raw payloads outside data/
+*.raw.json
+*_raw.json
+raw_*.json
+*.jsonl
+
+# Local reports and scratch files
+local_exports/
+scratch/
+tmp/
+*.local.csv

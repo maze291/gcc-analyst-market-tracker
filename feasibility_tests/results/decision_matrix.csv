@@ -1,0 +1,5 @@
+api_name,compliance_gate_status,coverage_score,role_relevance_score,field_completeness_score,description_usefulness_score,compliance_fit_score,restricted_source_risk_score,operational_fit_score,total_score,decision,notes
+JSearch / OpenWeb Ninja,feasibility_only,25,15,11,10,8,6,5,80,Strong Week 0 feasibility source; production blocked pending provider permission,"Manual review completed: 80 rows reviewed; 67 keep; 13 borderline; 0 exclude; 100% useful rate. Role mix: 23 Financial Analyst, 20 Business Analyst, 16 BI Analyst, 15 Data Analyst, 3 Data Engineer, 2 Data Scientist/Analyst-adjacent, 1 Product Analyst. Technical test: 39 Dubai, 39 Riyadh, 2 missing location; 100% description availability; 0% salary coverage; 33.75% restricted-source rows; 5% duplicate-flagged rows. Production use remains blocked until provider confirms aggregate public reporting, short-term caching, and derived-field storage."
+Careerjet,feasibility_only,,,,,,,,,Pending written terms comfort,
+Jooble,validation_only,,,,,,,,,Pending written terms comfort,
+Adzuna,avoid,,,,,,,,,Documentation-only unless written permission is obtained,
