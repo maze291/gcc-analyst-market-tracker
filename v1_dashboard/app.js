@@ -24,6 +24,10 @@ function colorClass(index) {
   return ["", "teal", "amber", "red"][index % 4];
 }
 
+function sampleWord(value) {
+  return Number(value || 0) === 1 ? "row" : "rows";
+}
+
 function renderBars(id, rows, labelField, valueField = "count", limit = 10) {
   const node = document.getElementById(id);
   if (!node) return;
@@ -81,9 +85,9 @@ function renderSourceQuality(rows) {
           </div>
         </div>
         <div class="risk-strip">
-          <div><strong>${percent(row.restricted_source_rate)}</strong>Restricted source</div>
-          <div><strong>${percent(row.possible_pii_raw_pattern_rate)}</strong>Raw contact pattern</div>
-          <div><strong>${percent(row.salary_coverage_rate)}</strong>Salary coverage</div>
+          <div><strong>${percent(row.restricted_source_rate)}</strong>Restricted-source flags</div>
+          <div><strong>${percent(row.possible_pii_raw_pattern_rate)}</strong>Raw-input contact flags</div>
+          <div><strong>${percent(row.salary_coverage_rate)}</strong>Salary fields present</div>
         </div>
       </article>
     `
@@ -119,16 +123,20 @@ function renderSalary(rows) {
 function render(data) {
   const kpis = data.kpis || {};
   text("kpi-included", fmt.format(kpis.included_rows || 0));
-  text("kpi-deduped", `${fmt.format(kpis.deduped_included_estimate || 0)} deduped estimate`);
+  text("kpi-deduped", `${fmt.format(kpis.deduped_included_estimate || 0)} unique-job estimate`);
   text("kpi-reviewed", fmt.format(kpis.reviewed_rows || 0));
   text("kpi-review-later", `${fmt.format(kpis.review_later_rows || 0)} review later`);
-  text("kpi-markets", fmt.format(kpis.countries || 0));
+  text("kpi-countries", fmt.format(kpis.countries || 0));
   text("kpi-cities", `${fmt.format(kpis.cities || 0)} cities`);
   text("kpi-salary", percent(kpis.salary_coverage_rate));
   text("kpi-restricted", percent(kpis.restricted_source_rate_all_reviewed));
   text("kpi-pii", percent(kpis.possible_pii_raw_pattern_rate_all_reviewed));
   text("retained-pii", fmt.format(data.metadata?.retained_pii_contact_fields ?? 0));
   text("review-status", fmt.format(kpis.review_later_rows || 0));
+  text(
+    "sample-summary",
+    `This dashboard summarizes ${fmt.format(kpis.reviewed_rows || 0)} reviewed Week 0 sample ${sampleWord(kpis.reviewed_rows)} from JSearch and Careerjet. ${fmt.format(kpis.included_rows || 0)} passed review for aggregate analysis. These are sample counts, not every analyst job in the region.`
+  );
 
   renderSourceQuality(data.source_quality || []);
   renderBars("city-chart", data.postings_by_city || [], (row) => `${row.city}, ${row.country}`, "count", 8);

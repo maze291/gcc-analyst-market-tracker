@@ -148,6 +148,81 @@ main {
   font-weight: 700;
 }
 
+.label-row,
+.heading-line {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.label-row {
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.label-row .label {
+  margin-bottom: 0;
+}
+
+.heading-line h2 {
+  min-width: 0;
+}
+
+.info-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #b9c3cf;
+  border-radius: 50%;
+  background: #f8fafc;
+  color: var(--muted);
+  cursor: help;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.info-tip:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.info-bubble {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  display: none;
+  width: min(270px, calc(100vw - 44px));
+  padding: 10px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--ink);
+  box-shadow: 0 10px 24px rgba(23, 32, 42, 0.18);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: left;
+  text-transform: none;
+}
+
+.heading-line .info-bubble {
+  right: auto;
+  left: 0;
+}
+
+.info-tip:hover .info-bubble,
+.info-tip:focus .info-bubble,
+.info-tip:focus-within .info-bubble {
+  display: block;
+}
+
 .kpi strong {
   display: block;
   margin-bottom: 8px;
@@ -167,6 +242,41 @@ main {
 
 .panel.wide {
   grid-column: 1 / -1;
+}
+
+.read-first {
+  border-color: #c6d3e0;
+  box-shadow: 0 12px 28px rgba(23, 32, 42, 0.07);
+}
+
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.method-grid article {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.method-grid h3 {
+  margin-bottom: 7px;
+}
+
+.method-grid p,
+.section-note {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.section-note {
+  margin-top: -8px;
+  margin-bottom: 16px;
 }
 
 .panel-header {
@@ -446,7 +556,8 @@ footer {
 
   .source-grid,
   .dashboard-grid,
-  .control-grid {
+  .control-grid,
+  .method-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -506,6 +617,15 @@ footer {
   .source-card header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .heading-line {
+    align-items: flex-start;
+  }
+
+  .heading-line .info-bubble {
+    right: 0;
+    left: auto;
   }
 
   .bar-row {

@@ -21,42 +21,90 @@
     <main>
       <section class="kpi-grid" aria-label="Dashboard KPIs">
         <article class="kpi primary">
-          <span class="label">Included postings</span>
+          <span class="label-row">
+            <span class="label">Included postings</span>
+            <span class="info-tip" tabindex="0" aria-label="Rows a reviewer marked as relevant enough to count in this Week 0 sample. These are not total market postings.">i<span class="info-bubble">Reviewer-approved sample rows only. This is not the full market size.</span></span>
+          </span>
           <strong id="kpi-included">--</strong>
-          <span id="kpi-deduped" class="hint">-- deduped estimate</span>
+          <span id="kpi-deduped" class="hint">-- unique-job estimate</span>
         </article>
         <article class="kpi">
-          <span class="label">Reviewed rows</span>
+          <span class="label-row">
+            <span class="label">Reviewed rows</span>
+            <span class="info-tip" tabindex="0" aria-label="Rows inspected during the feasibility review across the tested APIs.">i<span class="info-bubble">Rows manually checked for relevance, location quality, source risk, and usable fields.</span></span>
+          </span>
           <strong id="kpi-reviewed">--</strong>
           <span id="kpi-review-later" class="hint">-- review later</span>
         </article>
         <article class="kpi">
-          <span class="label">Markets</span>
-          <strong id="kpi-markets">--</strong>
+          <span class="label-row">
+            <span class="label">Countries covered</span>
+            <span class="info-tip" tabindex="0" aria-label="Countries represented in the reviewed Week 0 sample.">i<span class="info-bubble">Countries represented in this feasibility sample.</span></span>
+          </span>
+          <strong id="kpi-countries">--</strong>
           <span id="kpi-cities" class="hint">-- cities</span>
         </article>
         <article class="kpi">
-          <span class="label">Salary coverage</span>
+          <span class="label-row">
+            <span class="label">Salary coverage</span>
+            <span class="info-tip" tabindex="0" aria-label="Share of included sample rows with a salary field available. Low coverage means salary conclusions are weak.">i<span class="info-bubble">Share of included rows with salary data. Low coverage means no salary conclusions yet.</span></span>
+          </span>
           <strong id="kpi-salary">--</strong>
           <span class="hint">included rows only</span>
         </article>
         <article class="kpi risk">
-          <span class="label">Restricted-source rate</span>
+          <span class="label-row">
+            <span class="label">Restricted-source flags</span>
+            <span class="info-tip" tabindex="0" aria-label="Share of reviewed rows whose source domain matched high-risk job platforms such as LinkedIn, Indeed, Glassdoor, Bayt, Naukrigulf, or GulfTalent.">i<span class="info-bubble">Rows that point back to high-risk job platforms. The dashboard does not show those links publicly.</span></span>
+          </span>
           <strong id="kpi-restricted">--</strong>
           <span class="hint">reviewed rows</span>
         </article>
         <article class="kpi risk">
-          <span class="label">Raw contact-pattern rate</span>
+          <span class="label-row">
+            <span class="label">Raw-input contact flags</span>
+            <span class="info-tip" tabindex="0" aria-label="Share of reviewed rows where temporary raw input appeared to contain possible email, phone, profile, or recruiter contact patterns. These fields are not retained.">i<span class="info-bubble">Possible contact patterns seen before cleanup. Retained dashboard fields contain zero contact data.</span></span>
+          </span>
           <strong id="kpi-pii">--</strong>
-          <span class="hint">not retained fields</span>
+          <span class="hint">0 retained fields</span>
         </article>
+      </section>
+
+      <section class="panel wide read-first" aria-labelledby="method-title">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Read this first</p>
+            <h2 id="method-title">Week 0 sample, not a full-market census</h2>
+          </div>
+        </div>
+        <div class="method-grid">
+          <article>
+            <h3>What the numbers mean</h3>
+            <p id="sample-summary">This dashboard summarizes reviewed feasibility samples from JSearch and Careerjet. Counts show what passed review in the sample, not every analyst job in the region.</p>
+          </article>
+          <article>
+            <h3>What is safe to publish</h3>
+            <p>Only aggregate statistics are shown. Full postings, full descriptions, full application URLs, recruiter names, emails, phone numbers, and profile links are excluded.</p>
+          </article>
+          <article>
+            <h3>What is still blocked</h3>
+            <p>Public launch stays blocked until providers confirm that aggregate public reporting and derived-field storage are allowed.</p>
+          </article>
+          <article>
+            <h3>How to read weak signals</h3>
+            <p>Salary and trend charts need more recurring samples before they can support confident conclusions.</p>
+          </article>
+        </div>
       </section>
 
       <section class="panel wide" aria-labelledby="source-title">
         <div class="panel-header">
           <div>
             <p class="eyebrow">Source quality</p>
-            <h2 id="source-title">JSearch vs Careerjet</h2>
+            <div class="heading-line">
+              <h2 id="source-title">JSearch vs Careerjet</h2>
+              <span class="info-tip" tabindex="0" aria-label="This compares how usable each tested API was during Week 0. It is a quality review, not a ranking of job boards.">i<span class="info-bubble">Compares source quality in this test: relevance, usable fields, risk flags, and salary availability.</span></span>
+            </div>
           </div>
           <div class="legend">
             <span><i class="dot blue"></i>Included</span>
@@ -72,9 +120,13 @@
           <div class="panel-header">
             <div>
               <p class="eyebrow">Location</p>
-              <h2 id="city-title">Included postings by city</h2>
+              <div class="heading-line">
+                <h2 id="city-title">Included sample rows by city</h2>
+                <span class="info-tip" tabindex="0" aria-label="City counts are from the controlled Week 0 sample and should not be read as total city market demand.">i<span class="info-bubble">Controlled sample counts, not total city market demand.</span></span>
+              </div>
             </div>
           </div>
+          <p class="section-note">Balanced city counts mostly reflect the controlled Dubai/Riyadh test design.</p>
           <div id="city-chart" class="bar-list"></div>
         </article>
 
@@ -82,7 +134,10 @@
           <div class="panel-header">
             <div>
               <p class="eyebrow">Role mix</p>
-              <h2 id="role-title">Analyst categories</h2>
+              <div class="heading-line">
+                <h2 id="role-title">Analyst categories</h2>
+                <span class="info-tip" tabindex="0" aria-label="Role categories are manually reviewed sample labels. They are not official occupation codes.">i<span class="info-bubble">Manual review categories for the sample; not official occupation codes.</span></span>
+              </div>
             </div>
           </div>
           <div id="role-chart" class="bar-list"></div>
@@ -92,9 +147,13 @@
           <div class="panel-header">
             <div>
               <p class="eyebrow">Skills</p>
-              <h2 id="skills-title">Extracted demand signals</h2>
+              <div class="heading-line">
+                <h2 id="skills-title">Extracted demand signals</h2>
+                <span class="info-tip" tabindex="0" aria-label="Skill counts are derived from temporary text during normalization. Full descriptions are not retained.">i<span class="info-bubble">Derived from temporary text. Full descriptions are discarded.</span></span>
+              </div>
             </div>
           </div>
+          <p class="section-note">Skill counts are directional because snippet quality differs by source.</p>
           <div id="skills-chart" class="bar-list compact"></div>
         </article>
 
@@ -102,9 +161,13 @@
           <div class="panel-header">
             <div>
               <p class="eyebrow">Coverage</p>
-              <h2 id="salary-title">Salary signal quality</h2>
+              <div class="heading-line">
+                <h2 id="salary-title">Salary signal quality</h2>
+                <span class="info-tip" tabindex="0" aria-label="This shows whether salary data exists often enough to analyze. It does not estimate market pay yet.">i<span class="info-bubble">Shows salary field availability, not market salary levels.</span></span>
+              </div>
             </div>
           </div>
+          <p class="section-note">Current salary coverage is too low for pay conclusions.</p>
           <div id="salary-chart" class="stack-list"></div>
         </article>
       </section>
