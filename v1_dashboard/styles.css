@@ -217,6 +217,13 @@ main {
   left: 0;
 }
 
+@media (min-width: 721px) {
+  .kpi-grid .kpi:first-child .info-bubble {
+    right: auto;
+    left: 0;
+  }
+}
+
 .info-tip:hover .info-bubble,
 .info-tip:focus .info-bubble,
 .info-tip:focus-within .info-bubble {
