@@ -66,6 +66,28 @@ Add duplicate groups across active APIs:
 python scripts\detect_duplicates.py --input data\normalized\combined.csv --output data\normalized\combined_deduped.csv
 ```
 
+## V1 Private Dashboard
+
+After JSearch and Careerjet review files are complete, build aggregate-only dashboard data:
+
+```powershell
+python scripts\build_dashboard_aggregates.py
+```
+
+Then serve the repo root locally:
+
+```powershell
+python -m http.server 8080 --bind 127.0.0.1
+```
+
+Open:
+
+```text
+http://127.0.0.1:8080/v1_dashboard/
+```
+
+The v1 dashboard reads only aggregate files from `data/derived_only/dashboard/`. It does not read raw API samples or posting-level normalized CSVs directly.
+
 ## Important Files
 
 - `WEEK_0_CHECKLIST.md`: day-by-day sprint tasks

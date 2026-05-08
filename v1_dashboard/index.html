@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GCC Analyst Market Tracker v1</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Private prototype</p>
+        <h1>GCC Analyst Market Tracker</h1>
+      </div>
+      <div class="status-stack" aria-label="Prototype status">
+        <span class="status-pill blocked">Public launch blocked</span>
+        <span class="status-pill">Aggregate-only</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="kpi-grid" aria-label="Dashboard KPIs">
+        <article class="kpi primary">
+          <span class="label">Included postings</span>
+          <strong id="kpi-included">--</strong>
+          <span id="kpi-deduped" class="hint">-- deduped estimate</span>
+        </article>
+        <article class="kpi">
+          <span class="label">Reviewed rows</span>
+          <strong id="kpi-reviewed">--</strong>
+          <span id="kpi-review-later" class="hint">-- review later</span>
+        </article>
+        <article class="kpi">
+          <span class="label">Markets</span>
+          <strong id="kpi-markets">--</strong>
+          <span id="kpi-cities" class="hint">-- cities</span>
+        </article>
+        <article class="kpi">
+          <span class="label">Salary coverage</span>
+          <strong id="kpi-salary">--</strong>
+          <span class="hint">included rows only</span>
+        </article>
+        <article class="kpi risk">
+          <span class="label">Restricted-source rate</span>
+          <strong id="kpi-restricted">--</strong>
+          <span class="hint">reviewed rows</span>
+        </article>
+        <article class="kpi risk">
+          <span class="label">Raw contact-pattern rate</span>
+          <strong id="kpi-pii">--</strong>
+          <span class="hint">not retained fields</span>
+        </article>
+      </section>
+
+      <section class="panel wide" aria-labelledby="source-title">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Source quality</p>
+            <h2 id="source-title">JSearch vs Careerjet</h2>
+          </div>
+          <div class="legend">
+            <span><i class="dot blue"></i>Included</span>
+            <span><i class="dot amber"></i>Review later</span>
+            <span><i class="dot red"></i>Risk</span>
+          </div>
+        </div>
+        <div id="source-quality" class="source-grid"></div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel" aria-labelledby="city-title">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Location</p>
+              <h2 id="city-title">Included postings by city</h2>
+            </div>
+          </div>
+          <div id="city-chart" class="bar-list"></div>
+        </article>
+
+        <article class="panel" aria-labelledby="role-title">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Role mix</p>
+              <h2 id="role-title">Analyst categories</h2>
+            </div>
+          </div>
+          <div id="role-chart" class="bar-list"></div>
+        </article>
+
+        <article class="panel" aria-labelledby="skills-title">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Skills</p>
+              <h2 id="skills-title">Extracted demand signals</h2>
+            </div>
+          </div>
+          <div id="skills-chart" class="bar-list compact"></div>
+        </article>
+
+        <article class="panel" aria-labelledby="salary-title">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Coverage</p>
+              <h2 id="salary-title">Salary signal quality</h2>
+            </div>
+          </div>
+          <div id="salary-chart" class="stack-list"></div>
+        </article>
+      </section>
+
+      <section class="panel wide" aria-labelledby="risk-title">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Controls</p>
+            <h2 id="risk-title">Data handling and release posture</h2>
+          </div>
+        </div>
+        <div class="control-grid">
+          <article>
+            <span class="control-value" id="retained-pii">0</span>
+            <h3>Retained PII/contact fields</h3>
+            <p>Normalized and dashboard outputs omit full descriptions, full application links, emails, phone numbers, recruiter names, hiring manager names, and profile links.</p>
+          </article>
+          <article>
+            <span class="control-value amber-text" id="review-status">--</span>
+            <h3>Rows still needing judgment</h3>
+            <p>Ambiguous rows stay visible as review-later evidence rather than being silently counted as clean included demand.</p>
+          </article>
+          <article>
+            <span class="control-value red-text">Blocked</span>
+            <h3>Public launch status</h3>
+            <p>Provider permission remains required before publishing recurring aggregate statistics derived from API data.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span id="footer-status">Loading aggregate dataset...</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
