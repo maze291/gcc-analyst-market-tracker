@@ -286,15 +286,36 @@ def infer_country(*values: Any) -> str:
     text = flatten_text(values).lower()
     if any(token in text for token in ("united arab emirates", "uae", "dubai", "abu dhabi", "sharjah")):
         return "United Arab Emirates"
-    if any(token in text for token in ("saudi arabia", "riyadh", "jeddah", "dammam", "ksa")):
+    if any(token in text for token in ("saudi arabia", "riyadh", "jeddah", "dammam", "khobar", "al khobar", "ksa")):
         return "Saudi Arabia"
+    if any(token in text for token in ("qatar", "doha")):
+        return "Qatar"
+    if any(token in text for token in ("kuwait", "kuwait city")):
+        return "Kuwait"
+    if any(token in text for token in ("bahrain", "manama")):
+        return "Bahrain"
+    if any(token in text for token in ("oman", "muscat")):
+        return "Oman"
     return ""
 
 
 def infer_city(*values: Any) -> str:
     text = flatten_text(values).lower()
-    for city in ("Dubai", "Abu Dhabi", "Riyadh", "Jeddah", "Dammam", "Sharjah"):
-        if city.lower() in text:
+    city_aliases = {
+        "Dubai": ("dubai",),
+        "Abu Dhabi": ("abu dhabi",),
+        "Sharjah": ("sharjah",),
+        "Riyadh": ("riyadh",),
+        "Jeddah": ("jeddah",),
+        "Dammam": ("dammam",),
+        "Khobar": ("khobar", "al khobar", "al-khobar"),
+        "Doha": ("doha",),
+        "Kuwait City": ("kuwait city",),
+        "Manama": ("manama",),
+        "Muscat": ("muscat",),
+    }
+    for city, aliases in city_aliases.items():
+        if any(alias in text for alias in aliases):
             return city
     return ""
 
@@ -349,6 +370,7 @@ def parse_date(value: Any) -> str:
     if not text:
         return ""
     normalized = text.replace("Z", "+00:00")
+    normalized = re.sub(r"(\.\d{6})\d+", r"\1", normalized)
     try:
         return dt.datetime.fromisoformat(normalized).date().isoformat()
     except ValueError:

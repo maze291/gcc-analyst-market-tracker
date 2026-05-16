@@ -7,9 +7,16 @@ from pathlib import Path
 from common import DERIVED_ONLY_DIR, REPO_ROOT
 
 
+def review_path(name: str) -> Path:
+    auto_path = REPO_ROOT / "feasibility_tests" / "results" / f"{name}_review_auto.csv"
+    if auto_path.exists():
+        return auto_path
+    return REPO_ROOT / "feasibility_tests" / "results" / f"{name}_review.csv"
+
+
 REVIEW_FILES = {
-    "JSearch / OpenWeb Ninja": REPO_ROOT / "feasibility_tests" / "results" / "jsearch_review.csv",
-    "Careerjet": REPO_ROOT / "feasibility_tests" / "results" / "careerjet_review.csv",
+    "JSearch / OpenWeb Ninja": review_path("jsearch"),
+    "Careerjet": review_path("careerjet"),
     "Jooble": REPO_ROOT / "feasibility_tests" / "results" / "jooble_review.csv",
     "Adzuna": REPO_ROOT / "feasibility_tests" / "results" / "adzuna_review.csv",
 }
@@ -40,7 +47,7 @@ def main() -> None:
     lines = [
         "# Week 0 Feasibility Summary",
         "",
-        "This summary is generated from manual review CSVs and is local-only by default.",
+        "This summary is generated from local review CSVs and is local-only by default.",
         "",
         "The `Possible PII/contact pattern in raw input` rate is triggered from temporary raw fields used during review and normalization. It does not mean emails, phone numbers, LinkedIn profiles, recruiter names, hiring manager names, full descriptions, or full application URLs are retained in the normalized/public-safe output.",
         "",
@@ -72,7 +79,7 @@ def main() -> None:
             "",
             "## Decision Reminder",
             "",
-            "Apply the compliance gate before weighted scoring. If provider permission is unclear, keep the source at feasibility-only or validation-only.",
+            "Keep public outputs aggregate-only unless a provider clearly allows posting-level display.",
         ]
     )
 

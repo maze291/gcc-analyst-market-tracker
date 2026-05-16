@@ -1,0 +1,33 @@
+skill,skill_group
+SQL,Programming & Querying
+Excel,Business Productivity
+Power BI,BI & Visualization
+Tableau,BI & Visualization
+Python,Programming & Querying
+R Programming,Programming & Querying
+SAS,Statistics & Analytics
+SPSS,Statistics & Analytics
+Looker,BI & Visualization
+Qlik,BI & Visualization
+Power Query,BI & Visualization
+DAX,BI & Visualization
+ETL,Data Engineering
+Snowflake,Data Engineering
+Databricks,Data Engineering
+AWS,Cloud
+Azure,Cloud
+GCP,Cloud
+BigQuery,Data Engineering
+Redshift,Data Engineering
+Alteryx,Data Engineering
+SAP,Business Systems
+Salesforce,Business Systems
+CRM,Business Systems
+Jira,Workflow & Delivery
+Agile,Workflow & Delivery
+Statistics,Statistics & Analytics
+Machine Learning,Statistics & Analytics
+Forecasting,Finance & Planning
+Financial Modeling,Finance & Planning
+Data Visualization,BI & Visualization
+Data Warehousing,Data Engineering

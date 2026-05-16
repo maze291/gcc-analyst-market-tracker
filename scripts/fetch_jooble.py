@@ -22,7 +22,13 @@ def main() -> None:
     ensure_data_dirs()
     query_label = f"{args.query} {args.location}".strip()
     output_path = Path(args.output) if args.output else sample_path("jooble", query_label)
-    payload = {"keywords": args.query, "location": args.location, "page": args.page}
+    payload = {
+        "keywords": args.query,
+        "location": args.location,
+        "page": args.page,
+        "ResultOnPage": args.limit,
+        "companysearch": "false",
+    }
 
     if args.dry_run:
         print("DRY RUN: POST https://jooble.org/api/<JOOBLE_API_KEY>")

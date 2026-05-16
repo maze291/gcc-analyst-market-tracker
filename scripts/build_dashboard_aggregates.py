@@ -14,6 +14,13 @@ from common import DERIVED_ONLY_DIR, NORMALIZED_DIR, REPO_ROOT, duplicate_key, r
 DASHBOARD_DIR = DERIVED_ONLY_DIR / "dashboard"
 
 
+def review_path(name: str) -> Path:
+    auto_path = REPO_ROOT / "feasibility_tests" / "results" / f"{name}_review_auto.csv"
+    if auto_path.exists():
+        return auto_path
+    return REPO_ROOT / "feasibility_tests" / "results" / f"{name}_review.csv"
+
+
 @dataclass(frozen=True)
 class SourceInputs:
     key: str
@@ -27,13 +34,13 @@ SOURCES = [
         key="jsearch",
         label="JSearch / OpenWeb Ninja",
         normalized_path=NORMALIZED_DIR / "jsearch_deduped.csv",
-        review_path=REPO_ROOT / "feasibility_tests" / "results" / "jsearch_review.csv",
+        review_path=review_path("jsearch"),
     ),
     SourceInputs(
         key="careerjet",
         label="Careerjet",
         normalized_path=NORMALIZED_DIR / "careerjet_deduped.csv",
-        review_path=REPO_ROOT / "feasibility_tests" / "results" / "careerjet_review.csv",
+        review_path=review_path("careerjet"),
     ),
 ]
 
@@ -43,6 +50,8 @@ def parse_args() -> argparse.Namespace:
         description="Build aggregate-only v1 dashboard data from normalized samples and manual reviews."
     )
     parser.add_argument("--output-dir", default=str(DASHBOARD_DIR))
+    parser.add_argument("--cities", help="Optional comma-separated city filter for comparable scoped outputs.")
+    parser.add_argument("--countries", help="Optional comma-separated country filter for comparable scoped outputs.")
     return parser.parse_args()
 
 
@@ -64,7 +73,24 @@ def country_name(value: str) -> str:
         return "United Arab Emirates"
     if text.upper() == "SA":
         return "Saudi Arabia"
+    if text.upper() == "QA":
+        return "Qatar"
+    if text.upper() == "KW":
+        return "Kuwait"
+    if text.upper() == "BH":
+        return "Bahrain"
+    if text.upper() == "OM":
+        return "Oman"
     return text
+
+
+def parse_csv_filter(value: str | None, *, country: bool = False) -> set[str]:
+    if not value:
+        return set()
+    items = [part.strip() for part in value.split(",") if part.strip()]
+    if country:
+        return {country_name(item) for item in items}
+    return set(items)
 
 
 def split_skills(value: str) -> list[str]:
@@ -186,6 +212,16 @@ def skill_counts(records: list[dict[str, str]]) -> list[dict[str, Any]]:
     return result
 
 
+def country_skill_counts(records: list[dict[str, str]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    countries = sorted({row["country"] for row in records if row["country"] and row["country"] != "Unknown"})
+    for country in countries:
+        for item in skill_counts([row for row in records if row["country"] == country]):
+            item["country"] = country
+            rows.append(item)
+    return rows
+
+
 def salary_coverage(records: list[dict[str, str]]) -> list[dict[str, Any]]:
     rows = []
     for item in count_by(records, "source_name", "country"):
@@ -224,6 +260,8 @@ def main() -> None:
     args = parse_args()
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    city_filter = parse_csv_filter(args.cities)
+    country_filter = parse_csv_filter(args.countries, country=True)
 
     all_records: list[dict[str, str]] = []
     for source in SOURCES:
@@ -232,6 +270,11 @@ def main() -> None:
         if not source.review_path.exists():
             raise SystemExit(f"Missing review input: {source.review_path}")
         all_records.extend(reviewed_records(source))
+
+    if city_filter:
+        all_records = [row for row in all_records if row["city"] in city_filter]
+    if country_filter:
+        all_records = [row for row in all_records if row["country"] in country_filter]
 
     included = [row for row in all_records if row["reviewer_decision"] == "include"]
     review_later = [row for row in all_records if row["reviewer_decision"] == "review_later"]
@@ -244,10 +287,12 @@ def main() -> None:
         "metadata": {
             "title": "GCC Analyst Market Tracker v1",
             "status": "Private prototype",
-            "data_scope": "Aggregate-only dashboard data generated from Week 0 reviewed samples.",
-            "public_release_status": "Blocked pending provider permission for aggregate public reporting.",
+            "data_scope": "Aggregate dashboard data generated from Week 0 reviewed API samples.",
+            "public_release_status": "API-sourced aggregate prototype.",
             "retained_pii_contact_fields": 0,
             "sources": [source.label for source in SOURCES],
+            "city_filter": sorted(city_filter),
+            "country_filter": sorted(country_filter),
         },
         "kpis": {
             "reviewed_rows": len(all_records),
@@ -255,19 +300,22 @@ def main() -> None:
             "deduped_included_estimate": len(unique_included_keys),
             "review_later_rows": len(review_later),
             "sources_tested": len(SOURCES),
-            "countries": len({row["country"] for row in all_records if row["country"] and row["country"] != "Unknown"}),
-            "cities": len({row["city"] for row in all_records if row["city"] and row["city"] != "Unknown"}),
+            "countries": len({row["country"] for row in included if row["country"] and row["country"] != "Unknown"}),
+            "cities": len({row["city"] for row in included if row["city"] and row["city"] != "Unknown"}),
             "salary_coverage_rate": pct(len(salary_rows), len(included)),
             "restricted_source_rate_all_reviewed": pct(len(restricted_rows), len(all_records)),
             "possible_pii_raw_pattern_rate_all_reviewed": pct(len(pii_rows), len(all_records)),
         },
         "source_quality": source_quality(all_records),
+        "countries": count_by(included, "country"),
         "postings_by_city": count_by(included, "country", "city"),
         "role_mix": count_by(included, "role_category"),
+        "role_mix_by_country": count_by(included, "country", "role_category"),
         "role_mix_by_source": count_by(included, "source_name", "role_category"),
         "postings_by_source": count_by(included, "source_name"),
         "posting_months": count_by(included, "posting_month"),
         "skill_counts": skill_counts(included),
+        "skill_counts_by_country": country_skill_counts(included),
         "salary_coverage": salary_coverage(included),
         "review_status": status_counts(all_records),
         "risk_counts": {
@@ -276,22 +324,26 @@ def main() -> None:
             "retained_pii_contact_fields": 0,
         },
         "data_handling": [
-            "Dashboard files are aggregate-only.",
             "No full job postings, descriptions, application URLs, recruiter names, emails, phone numbers, or profile links are included.",
-            "Possible PII/contact pattern metrics refer to temporary raw input flags, not retained fields.",
-            "Public launch remains blocked until provider permission is clarified.",
         ],
     }
 
     write_json(output_dir / "dashboard_data.json", aggregates)
+    write_csv(output_dir / "countries.csv", aggregates["countries"], ["country", "count"])
     write_csv(output_dir / "postings_by_city.csv", aggregates["postings_by_city"], ["country", "city", "count"])
     write_csv(output_dir / "role_mix.csv", aggregates["role_mix"], ["role_category", "count"])
+    write_csv(output_dir / "role_mix_by_country.csv", aggregates["role_mix_by_country"], ["country", "role_category", "count"])
     write_csv(output_dir / "role_mix_by_source.csv", aggregates["role_mix_by_source"], ["source_name", "role_category", "count"])
     write_csv(output_dir / "postings_by_source.csv", aggregates["postings_by_source"], ["source_name", "count"])
     write_csv(
         output_dir / "skill_counts.csv",
         aggregates["skill_counts"],
         fields_for(aggregates["skill_counts"], ["skill", "count"]),
+    )
+    write_csv(
+        output_dir / "skill_counts_by_country.csv",
+        aggregates["skill_counts_by_country"],
+        fields_for(aggregates["skill_counts_by_country"], ["country", "skill", "count"]),
     )
     write_csv(
         output_dir / "source_quality.csv",

@@ -2,21 +2,38 @@
 
 This folder contains the public project page for GCC Analyst Market Tracker.
 
-## Recommended Hosting
+The public site is intentionally lighter than the private dashboard. It explains the project, the methodology, and the beta direction without publishing provider details, raw records, or the full working dashboard.
 
-Use GitHub Pages from the `docs/` folder for the first public URL.
+## Hosting
 
-Later, attach a custom domain such as:
+The first public URL is hosted with GitHub Pages:
 
-- `gccanalysttracker.com`
-- `tracker.yourdomain.com`
+```text
+https://maze291.github.io/
+```
 
-## Careerjet Publisher Form
+Later, the project can move to a custom domain.
 
-Use the published GitHub Pages URL or custom domain as the website address.
+## Public Positioning
 
 Suggested description:
 
 ```text
-Personal, non-commercial labor-market analytics project focused on aggregate analyst-job trends in the UAE and Saudi Arabia. The site is intended to show summary-level market insights such as city-level counts, role categories, skill trends, and salary coverage rates. It does not publish full job postings, full job descriptions, recruiter contact details, or direct application links.
+GCC Analyst Market Tracker is a private-beta career intelligence project that turns sampled job-market data into weekly aggregate signals about analyst-role demand, cities, skills, and role paths across the Gulf.
 ```
+
+## Public Display Limits
+
+The public site should not show:
+
+- raw job listings
+- full job descriptions
+- recruiter names
+- contact details
+- application links
+- API keys
+- provider configuration
+- exact source strategy
+
+Public copy should keep the focus on the product idea, methodology, and beta access flow.
+

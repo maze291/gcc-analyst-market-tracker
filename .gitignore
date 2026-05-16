@@ -35,3 +35,4 @@ tmp/
 *.local.csv
 site_publish/
 feasibility_tests/results/*_prefilled.csv
+feasibility_tests/results/*_review_auto.csv
